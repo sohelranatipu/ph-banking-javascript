@@ -1,7 +1,34 @@
 // Function 
-// function getInput(){
+function getInput(inputField){
+    const depo_input = document.getElementById(inputField);
+    const new_value  = parseInt(depo_input.value);
+    depo_input.value = '';
 
-// }
+    return new_value;
+}
+
+// get & show  main deposit & widtdrew balance
+function updateTotalField(input_field,total_field){
+    const main_depo = document.getElementById(input_field);
+    const new_depo_int = parseInt(main_depo.innerText);
+    const total_depo = new_depo_int + total_field;
+    main_depo.innerText = total_depo;
+}
+
+// Update Total Balance 
+function UpdateTotalBalance(total_ammount,isAdd){
+    const main_balance = document.getElementById('main_balance');  
+    const main_balance_int = parseInt(main_balance.innerText);
+    if(isAdd == true){
+        const total_balance = main_balance_int + total_ammount ;
+        main_balance.innerText = total_balance;
+    }
+    else{
+        const total_balance = main_balance_int - total_ammount ;
+        main_balance.innerText = total_balance;
+    }
+}
+    
 
 
 
@@ -9,59 +36,25 @@ document.getElementById('depo_btn').addEventListener('click',function(){
 
     // @@@@@@@@@@ Deposit @@@@@@@ 
     // get input 
-    const depo_input = document.getElementById('depo_input');
-    const new_value  = parseInt(depo_input.value);
-    
-    // get main deposit 
-    const main_depo = document.getElementById('main_depo');
-    const new_depo_int = parseInt(main_depo.innerText);
-     // show newUpdate deposit 
-    const total_depo = new_depo_int + new_value;
-
-
-    main_depo.innerText = total_depo;
-    // input field zero  
-    depo_input.value = '';
-     
-     
-    // balance
-    const main_balance = document.getElementById('main_balance');
-    // const main_balance_value = main_balance.innerText;
-    const main_balance_int = parseInt(main_balance.innerText);
-    // console.log(main_balance_int);
-    const total_balance = main_balance_int + new_value ;
-
-    //  console.log(total_balance);
-    main_balance.innerText = total_balance;
+    const new_value =  getInput('depo_input'); 
+    if(new_value > 0 ){
+        // get main deposit 
+        updateTotalField('main_depo', new_value);  
+        // Totalbalance
+        UpdateTotalBalance(new_value,true);
+    }
 
 })
 
 
 
         // @@@@@@@@@@ Withdraw @@@@@@@ 
-        document.getElementById('withdrew_btn').addEventListener('click',function(){
+      document.getElementById('withdrew_btn').addEventListener('click',function(){
             // get valur from input 
-            const main_withdrew = document.getElementById('withd_input');
-            const main_withdrew_amount = parseInt(main_withdrew.value);
-
+            const main_withdrew_amount = getInput('withd_input');
             // show main withdrew 
-            const withdrew_value = document.getElementById('withdrew_value');
-            const new_withdrew_value = parseInt(withdrew_value.innerText); 
-            const total_withdrew = new_withdrew_value + main_withdrew_amount;
-
-            withdrew_value.innerText = total_withdrew;
-
-            main_withdrew.value = '' ;
-
-            // main balance 
-           const main_balance = document.getElementById('main_balance');
-           const main_balance_text = main_balance.innerText ;
-
-           const main_balance_amount = parseInt(main_balance_text);
-
-           
-
-           const final_balance = main_balance_amount - main_withdrew_amount;
-           main_balance.innerText = final_balance;
+            updateTotalField('withdrew_value', main_withdrew_amount);
+            // total Balance
+            UpdateTotalBalance(main_withdrew_amount,false);
             
         })
